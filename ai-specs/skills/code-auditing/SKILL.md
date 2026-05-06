@@ -1,9 +1,8 @@
 ---
 name: code-auditing
-description: This skill should be used when the user asks to "audit code", "find technical debt", "perform a security review", "identify dead code", "analyze code quality", "check best practices", "run a code audit", or needs a systematic methodology for comprehensive codebase analysis.
+description: Task-focused project skill.
 version: 1.0.0
 ---
-
 # Code Auditing Skill
 
 Comprehensive methodology for systematic code quality audits.

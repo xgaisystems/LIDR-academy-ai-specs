@@ -1,1 +1,1 @@
-docs/base-standards.mdc
+docs/base-standards.md

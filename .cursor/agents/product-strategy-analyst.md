@@ -1,1 +1,1 @@
-../../ai-specs/.agents/product-strategy-analyst.md
+../../ai-specs/agents/product-strategy-analyst.md
