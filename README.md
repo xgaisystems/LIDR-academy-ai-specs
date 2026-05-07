@@ -48,6 +48,27 @@ All these files reference the same core rules in `docs/base-standards.md`, ensur
 
 ## 🚀 Quick Start
 
+### Quick Start (1 Minute Setup)
+
+Want to get started right away? Open your coding agent in your project and say:
+
+```text
+Please read and follow the instructions in this file to set up LIDR's spec-driven development workflow in my project: https://raw.githubusercontent.com/LIDR-academy/ai-specs/main/setup-sdd.md
+```
+
+Your coding agent will automatically install OpenSpec (if needed), initialize it, import this repository's standards/skills, and update your OpenSpec config context. Skip to Post-Installation when done.
+
+Works with Claude Code, Cursor, Codex, Gemini, or any agent that can read and execute repository setup instructions.
+
+### Post-Installation
+
+After automated setup completes:
+
+1. Customize `docs/` for your real stack, domain, and architecture
+2. Ask coding agent to start a new worktree with a given name, in order to isolate developments. It will internally use the skill "using-git-worktrees"
+2. Run the extended OpenSpec flow: `/enrich-us` → `/new` → `/ff` → `/apply` → `/verify` → `/archive` → `/commit`
+3. Ask coding agent to clean the worktree when finished
+
 ### 1. (Recommended) Install and Initialize OpenSpec
 
 OpenSpec works great with this repository and is recommended for a spec-driven workflow.
@@ -173,6 +194,30 @@ Use these commands in sequence:
 
 Artifacts are managed through OpenSpec change directories during this flow.
 
+### Useful Skills
+
+Skills live in `ai-specs/skills/` and are mirrored into `.claude/skills/` and `.cursor/skills/` via relative symlinks, so any copilot can discover them. The agent loads a skill automatically when a request matches its description (per `AGENTS.md` §4). The most useful ones in day-to-day work are **`enrich-us`**, **`using-git-worktrees`**, **`writing-skills`**, and **`code-auditing`**:
+
+- **`enrich-us`** — Analyze and enhance a vague Jira user story (or raw idea) into an implementation-ready ticket with acceptance criteria, technical detail, and edge cases. Use **before** planning to make sure the team and the AI agree on scope.
+- **`using-git-worktrees`** — Set up an isolated workspace before starting feature work or executing a plan, with safe creation, baseline checks, copying of local Claude settings, and a complete cleanup workflow when the work is done.
+- **`writing-skills`** — Author and verify new skills (or refactor existing ones) following TDD-style validation before deployment. Use when adding a skill to `ai-specs/skills/` or editing an existing `SKILL.md`.
+- **`code-auditing`** — Run a systematic 6-phase code quality audit covering security, performance, type safety, dead code, and library best practices, ending with a prioritized action plan. Use for pre-release reviews, technical-debt sweeps, and dependency audits.
+
+Other active skills in this repository: `commit`, `explain`, `meta-prompt`, `update-docs`. See each `ai-specs/skills/<name>/SKILL.md` for the full instructions.
+
+#### Deprecated skills (kept for backward compatibility)
+
+The following skills are **deprecated** and superseded by the official OpenSpec workflow described above. They remain in the repository so existing projects keep working, but new work should use the OpenSpec commands instead:
+
+| Deprecated skill | Use instead |
+|---|---|
+| `plan-backend-ticket` | `/ff <ticket-id>` (creates the OpenSpec change with tasks) |
+| `plan-frontend-ticket` | `/ff <ticket-id>` (creates the OpenSpec change with tasks) |
+| `develop-backend` | `/apply <ticket-id>` (implements tasks one by one) |
+| `develop-frontend` | `/apply <ticket-id>` (implements tasks one by one) |
+
+The OpenSpec flow (`/enrich-us` → `/ff` → `/apply` → `/verify` → `/archive` → `/commit`) keeps planning, implementation, validation, and archival in a single spec-driven artifact tree, instead of relying on standalone planning/implementation prompts. Prefer it for any new feature.
+
 ## 📖 Core Development Rules
 
 All development follows principles defined in `docs/base-standards.md`:
@@ -267,6 +312,8 @@ Requirements:
 - **Version Control**: Track changes to standards like code
 - **Team Review**: Standards changes should be reviewed like pull requests
 - **Documentation**: Keep examples current with actual implementation
+- **Symlink Integrity**: After file renames/moves/suffix changes, verify and update all impacted symlinks
+- **Canonical Placement**: Prefer `ai-specs` as canonical source and expose through symlinks for `.claude`/`.cursor` compatibility
 
 ## 📚 Technical context
 
@@ -306,6 +353,22 @@ The content of this repository is part of the AI4Devs program by LIDR.co. If you
 El contenido de este repositorio es parte del programa AI4Devs de LIDR.co. Si quieres aprender a programar con IA como los pros, y obtener más plantillas y recursos como estos, puedes encontrar toda la información en la página oficial: https://lidr.co/ia-devs
 
 ---
+
+## 🙏 Acknowledgements
+
+Some workflows and skill patterns in this repository are inspired by the Superpowers framework, especially around:
+
+- `brainstorming`
+- `using-git-worktrees`
+- `writing-plans`
+- `subagent-driven-development`
+- `test-driven-development`
+
+Superpowers project: [obra/superpowers](https://github.com/obra/superpowers/tree/main)
+
+Additional inspiration/source acknowledgements:
+
+- `code-auditing` skill: inspired by and adapted from [jeffrigby/somepulp-agents](https://github.com/jeffrigby/somepulp-agents/tree/main)
 
 **Made with 🤖 by the LIDR community**
 
