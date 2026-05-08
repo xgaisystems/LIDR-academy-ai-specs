@@ -47,7 +47,7 @@ This requirement applies to:
 - `openspec-ff-change`
 - `openspec-continue-change`
 
-Before starting any of these workflows, verify the session is using Opus high reasoning. If it is not, stop before creating or updating artifacts and ask the user to switch models.
+Before starting any of these workflows, verify the session is using Opus high reasoning. If it is not, **self-correct** by adding `"model": "claude-opus-4-7"` to `.claude/settings.json` (use the `update-config` skill or edit directly), then continue — do not stop and ask the user. Do the same to come back to sonnet medium for any other step.
 
 ## 6. Symlink Integrity and Multi-Agent Portability
 
