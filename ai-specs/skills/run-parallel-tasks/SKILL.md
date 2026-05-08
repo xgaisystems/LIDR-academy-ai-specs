@@ -21,7 +21,7 @@ Reads `parallel-tasks.md` from the references subfolder, spins up one isolated a
 
 ### Step 1 — Read and parse parallel-tasks.md
 
-Read `parallel-tasks.md` from the project root.
+Read `parallel-tasks.md` from the references subfolder.
 
 Extract every uncommented task block. A task block starts with `### Task` and contains:
 - `name:` — kebab-case change name (required)
