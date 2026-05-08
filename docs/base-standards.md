@@ -30,6 +30,7 @@ For detailed standards and guidelines specific to different areas of the project
 - [Backend Standards](./backend-standards.md) - API development, database patterns, testing, security and backend best practices
 - [Frontend Standards](./frontend-standards.md) - React components, UI/UX guidelines, and frontend architecture
 - [Documentation Standards](./documentation-standards.md) - Technical documentation structure, formatting, and maintenance guidelines, including AI standards like this document
+- [OpenSpec Tasks Mandatory Steps](./openspec-tasks-mandatory-steps.md) - Required checklist and execution rules when creating or updating OpenSpec `tasks.md` files
 
 ## 4. Project Skills
 
@@ -45,58 +46,3 @@ For detailed standards and guidelines specific to different areas of the project
 - **External Customization Review**: Whenever customization is introduced outside `ai-specs`, evaluate whether it should be moved into `ai-specs` and replaced with symlinks from the original locations.
 - **Completion Gate**: A change is incomplete if it leaves broken symlinks, stale targets, or duplicated canonical artifacts across agent-specific folders.
 
-## 6. OpenSpec Tasks Mandatory Steps
-
-When creating or updating OpenSpec `tasks.md` artifacts, follow these requirements.
-
-### 6.1 Read OpenSpec configuration first
-
-- **Required first action**: Read `openspec/config.yaml` before drafting or editing any `tasks.md` file.
-- **Purpose**: Capture mandatory steps, naming conventions, task structure, testing expectations, and documentation requirements from project configuration.
-
-### 6.2 Required backend task structure
-
-For backend changes, ensure the checklist includes these mandatory steps in order:
-
-1. **Step 0 (must be first)**: Create and switch to feature branch:
-   - `feature/[ticket-id]-backend` or `feature/[change-name]-backend`
-2. **Review and update existing unit tests (MANDATORY)**
-3. **Run unit tests and verify database state (MANDATORY)**
-4. **Manual endpoint testing with curl (MANDATORY - AGENT MUST EXECUTE)**
-5. **E2E testing with Playwright MCP when applicable (MANDATORY - AGENT MUST EXECUTE)**
-6. **Update technical documentation (MANDATORY)**
-
-### 6.3 Manual testing execution is agent responsibility
-
-- **Never delegate testing to the user** for steps required by `tasks.md`.
-- The agent must start required services, run tests, validate outcomes, and restore data state after CREATE/UPDATE/DELETE operations.
-- The agent must only mark tasks as completed (`[x]`) after required tests pass and cleanup is complete.
-
-### 6.4 Mandatory curl coverage (for endpoint work)
-
-Execute and verify:
-- GET endpoints
-- POST endpoints (with cleanup)
-- PUT/PATCH endpoints (with revert)
-- DELETE endpoints (with recreation/restore)
-- Error cases (validation, 404, auth as applicable)
-
-Document commands, responses, and restoration actions.
-
-### 6.5 Mandatory Playwright E2E coverage (when applicable)
-
-For frontend workflows or frontend/backend integration changes:
-- Run E2E flows with Playwright MCP tools
-- Validate success and error paths
-- Verify data persistence and consistency
-- Clean test data and restore environment state
-
-### 6.6 Completion checklist before finalizing `tasks.md`
-
-- Step 0 branch creation is first
-- Mandatory steps are present and sequential
-- Mandatory labels are explicit
-- Branch name matches backend convention
-- Manual testing tasks explicitly state "AGENT MUST EXECUTE"
-- Database restoration steps are included for mutating operations
-- E2E step is present when frontend workflow impact exists
