@@ -25,7 +25,20 @@ Verify all of the following in the current working directory (target project roo
 
 If any check fails, stop and report exactly what is missing.
 
-### 2) Install OpenSpec (if needed)
+### 2) Detect Existing Specboot Installation Channel
+
+This setup must work whether `specboot` was installed from npm or provided by a Claude Code plugin.
+
+Detection and compatibility rules:
+
+1. If the project already contains any of these paths, treat Specboot as already applied and skip re-import:
+   - `ai-specs/`
+   - `docs/base-standards.md`
+   - `CLAUDE.md` or `AGENTS.md` symlinked to `docs/base-standards.md`
+2. If the user says Specboot was installed via plugin, do **not** require a global npm install of `@lidr/lidr-specboot`.
+3. If no Specboot artifacts exist yet, use the automated bootstrap command in step 5.
+
+### 3) Install OpenSpec (if needed)
 
 If `openspec` is not available, install it globally:
 
@@ -39,7 +52,7 @@ Re-verify with:
 openspec --version
 ```
 
-### 3) Initialize OpenSpec (if needed)
+### 4) Initialize OpenSpec (if needed)
 
 If the project does not have OpenSpec initialized yet, run:
 
@@ -49,7 +62,28 @@ openspec init
 
 If it is already initialized, keep existing artifacts and continue.
 
-### 4) Import LIDR AI Specs Into the Project
+### 5) Import or Refresh LIDR AI Specs Into the Project
+
+Use one of these automated paths:
+
+- Preferred (works for plugin users and npm users):
+
+```bash
+npx -y @lidr/lidr-specboot@latest .
+```
+
+- Alternative (if `lidr-specboot` is already available in PATH):
+
+```bash
+lidr-specboot .
+```
+
+Behavior expectations:
+- The bootstrap is non-destructive: it copies missing files and skips existing ones.
+- It creates the expected symlinks for `.claude` and `.cursor` when missing.
+- It keeps the project's existing root `README.md`.
+
+If the command is unavailable due to network or registry restrictions, use the fallback clone/copy sequence below.
 
 Copy this repository's baseline files into the target project **without overwriting existing files**.
 Keep the source `README.md` as onboarding instructions inside `ai-specs/` instead of replacing the project's root README.
@@ -71,7 +105,7 @@ Important:
 - Keep hidden directories such as `.claude/` and `.cursor/` when present in source
 - Remove temporary clone after copy (`rm -rf "$tmp_dir"`)
 
-### 5) Ensure OpenSpec Config Includes This Technical Context
+### 6) Ensure OpenSpec Config Includes This Technical Context
 
 Update the project's OpenSpec config file (`config.yml` or `openspec/config.yaml`, whichever exists) so context includes:
 
@@ -87,7 +121,12 @@ Update the project's OpenSpec config file (`config.yml` or `openspec/config.yaml
 
 Do not delete unrelated existing project context; merge safely.
 
-### 6) Create a First Draft of Technical Context (When Applicable)
+If this project was set up through a plugin and no config file exists yet:
+1. Run `openspec init`
+2. Re-open `openspec/config.yaml`
+3. Merge the required context entries listed above
+
+### 7) Create a First Draft of Technical Context (When Applicable)
 
 If the target project has missing or generic technical documentation in `docs/`, create a first draft before finishing setup.
 
@@ -137,7 +176,7 @@ Missing section policy (mandatory):
   - "Frontend framework? (React/Vue/Angular/Other)"
   - "Testing stack? (Jest/Vitest/Cypress/Playwright/Other)"
 
-### 7) Verify Symlink Integrity and Key Files
+### 8) Verify Symlink Integrity and Key Files
 
 Verify that the imported structure is usable:
 
@@ -153,7 +192,7 @@ Verify that the imported structure is usable:
    - `ai-specs/agents/`
 4. If `.claude` / `.cursor` symlinks exist, ensure they are not broken.
 
-### 8) Completion Output (Required)
+### 9) Completion Output (Required)
 
 When done, report:
 
